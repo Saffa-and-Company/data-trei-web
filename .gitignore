@@ -40,8 +40,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Large video files
-public/Data\ Trei\ -\ Op\ Blind\ Spots.mp4
-public/Data\ Trei\ -\ Op\ Blind\ Spots/
-public/Data\ Trei\ Hero\ Video.mp4
+# temporary files
 temp_videos/
