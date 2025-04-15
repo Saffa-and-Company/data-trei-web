@@ -20,10 +20,10 @@ export default function FinalCTA() {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="/get-started"
-                className="inline-flex items-center px-8 py-4 text-base font-medium text-white bg-emerald-600 hover:bg-emerald-500 rounded-md transition-colors"
+                href="#"
+                className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Sign up – Free
+                Join Waitlist
               </a>
               <a
                 href="/demo"

@@ -2,7 +2,7 @@ export default function Hero() {
   return (
     <section className="relative pt-32 pb-24 overflow-hidden">
       {/* Background gradient */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-black to-black" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-red-500/10 via-black to-black" />
       
       {/* Content */}
       <div className="relative container mx-auto px-4">
@@ -10,19 +10,19 @@ export default function Hero() {
           {/* Text Content */}
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-medium mb-8 text-white">
-              Stay Ready for Audits, Always.
+              Unmask Insider Threats & Anomalous Behavior in Maximo Environments
             </h1>
             <p className="text-xl md:text-2xl text-gray-400 mb-12 leading-relaxed">
-              Data Trei automates compliance monitoring, identifies policy drift, and generates audit-ready logs across Maximo and connected systems. No scrambling. Just real-time readiness.
+              Data Trei surfaces behavior patterns that deviate from your operational norm—flagging suspicious access, anomalous usage, and privilege abuse before they become incidents.
             </p>
             
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="/platform"
+                href="/signup"
                 className="inline-flex items-center px-8 py-4 text-base font-medium text-white bg-emerald-600 hover:bg-emerald-500 rounded-md transition-colors"
               >
-                See Platform
+                Sign up – Free
               </a>
               <a
                 href="/demo"
@@ -64,7 +64,7 @@ export default function Hero() {
                   muted 
                   playsInline
                 >
-                  <source src="/compliance-report-final.mp4" type="video/mp4" />
+                  <source src="/Anomalous Behaviour - Sarah.mp4" type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
               </div>

@@ -334,12 +334,17 @@ const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string | null>(null);
 
+  const handleNavigationClick = () => {
+    setMobileMenuOpen(false);
+    setActiveSection(null);
+  };
+
   return (
     <nav className="fixed w-full z-50 bg-black/90 backdrop-blur-sm border-b border-gray-800">
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center h-16">
           <div className="flex-shrink-0">
-            <Link href="/" className="flex items-center">
+            <Link href="/" className="flex items-center" onClick={handleNavigationClick}>
               <Image
                 src="/datatreilogo2.svg"
                 alt="Data Trei Logo"
@@ -359,6 +364,7 @@ const Navigation = () => {
                   key={item.label}
                   href={item.href}
                   className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium"
+                  onClick={handleNavigationClick}
                 >
                   {item.label}
                 </Link>
@@ -407,6 +413,7 @@ const Navigation = () => {
                                           key={overviewItem.title}
                                           href={overviewItem.href}
                                           className="group flex items-center justify-between hover:bg-gray-800/50 rounded-md p-4"
+                                          onClick={handleNavigationClick}
                                         >
                                           <div className="flex items-center gap-4">
                                             <span className="flex-shrink-0 w-8 h-8 text-[#3EE8B5]">
@@ -471,6 +478,7 @@ const Navigation = () => {
                                                 key={subItem.title}
                                                 href={subItem.href}
                                                 className="group flex items-start gap-3 text-gray-300 hover:text-white p-4 rounded-md hover:bg-gray-800/50"
+                                                onClick={handleNavigationClick}
                                               >
                                                 <span className="flex-shrink-0 w-6 h-6 mt-1 text-gray-400 group-hover:text-[#3EE8B5]">
                                                   {subItem.icon}
@@ -512,12 +520,13 @@ const Navigation = () => {
                                   </div>
                                   <h3 className="text-lg font-semibold text-white mb-2">Get Free Access to Data Trei Today</h3>
                                   <p className="text-xs text-gray-400 mb-4">Use it for free (no credit card required)</p>
-                                  <Link
-                                    href="/signup"
-                                    className="block w-full text-center bg-[#3EE8B5] text-black px-4 py-2 rounded-md font-medium hover:bg-[#3EE8B5]/90 transition-colors text-sm"
+                                  <a
+                                    href="#"
+                                    className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                    onClick={handleNavigationClick}
                                   >
-                                    Get Started – Free
-                                  </Link>
+                                    Join Waitlist
+                                  </a>
                                 </div>
                               </div>
                             ) : (
@@ -531,6 +540,7 @@ const Navigation = () => {
                                         className={`${
                                           active ? 'text-white' : 'text-gray-300'
                                         } group flex items-center gap-4 px-6 py-3 text-base`}
+                                        onClick={handleNavigationClick}
                                       >
                                         <span className="flex-shrink-0 w-6 h-6 text-gray-400 group-hover:text-[#3EE8B5]">
                                           {subItem.icon}
@@ -556,8 +566,9 @@ const Navigation = () => {
             <Link
               href="/signup"
               className="ml-4 px-4 py-2 bg-[#3EE8B5] text-black text-sm font-medium rounded-md hover:bg-[#3EE8B5]/90 transition-colors"
+              onClick={handleNavigationClick}
             >
-              Sign Up – Free
+              Join Waitlist
             </Link>
           </div>
 
@@ -583,6 +594,7 @@ const Navigation = () => {
                   <Link
                     href={item.href}
                     className="text-gray-300 hover:text-white block px-3 py-2 text-base font-medium"
+                    onClick={handleNavigationClick}
                   >
                     {item.label}
                   </Link>
@@ -599,6 +611,7 @@ const Navigation = () => {
                           key={subItem.title}
                           href={subItem.href}
                           className="text-gray-400 hover:text-white flex items-center gap-3 px-3 py-2 text-sm"
+                          onClick={handleNavigationClick}
                         >
                           <span className="flex-shrink-0 w-5 h-5 text-gray-400">
                             {subItem.icon}
@@ -614,8 +627,9 @@ const Navigation = () => {
             <Link
               href="/signup"
               className="block w-full text-center bg-[#3EE8B5] text-black px-4 py-2 rounded-md text-base font-medium hover:bg-[#3EE8B5]/90 transition-colors mt-4"
+              onClick={handleNavigationClick}
             >
-              Sign Up – Free
+              Join Waitlist
             </Link>
           </div>
         </div>
