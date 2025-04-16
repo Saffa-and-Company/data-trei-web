@@ -117,7 +117,7 @@ const navigation: NavItem[] = [
           },
           { 
             title: 'Overwhelming Log Volume', 
-            href: '/solutions/log-volume', 
+            href: '/solutions/log-overload', 
             icon: <Database size={20} />,
             description: 'Eliminate alert fatigue and prioritize threats with contextualized, LLM-powered log analysis for Maximo data.'
           },
@@ -128,7 +128,7 @@ const navigation: NavItem[] = [
         items: [
           { 
             title: 'Exploit & Vulnerability Intelligence', 
-            href: '/products/vulnerability-intelligence', 
+            href: '/solutions/exploit-intelligence', 
             icon: <Zap size={20} />,
             description: 'Continuously assess and surface the most urgent vulnerabilities across your enterprise systems, prioritized by exploitability and impact.'
           },
@@ -140,13 +140,13 @@ const navigation: NavItem[] = [
           },
           { 
             title: 'Enterprise Threat Graph', 
-            href: '/products/threat-graph', 
+            href: '/products/enterprise-threat-graph', 
             icon: <Network2 size={20} />,
             description: 'Visualize threat propagation across systems like IBM Maximo, ServiceNow, Salesforce, and more, with entity resolution powered by semantic AI.'
           },
           { 
             title: 'Agentic Co-Pilot', 
-            href: '/products/copilot', 
+            href: '/products/agentic-co-pilot', 
             icon: <Bot size={20} />,
             description: 'Receive guided playbooks, incident response prompts, and executive summaries based on real-time security events.'
           },
