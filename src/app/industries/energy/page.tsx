@@ -103,7 +103,7 @@ export default function Energy() {
               <div className="flex-1">
                 <div className="relative aspect-square w-full max-w-lg mx-auto">
                   <Image
-                    src="/images/industry-manufacturing.png"
+                    src="/images/industry-energy.png"
                     alt="Energy Infrastructure Illustration"
                     fill
                     className="object-contain"
