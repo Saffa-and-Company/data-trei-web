@@ -1,3 +1,5 @@
+"use client";
+
 import FinalCTA from '@/components/FinalCTA';
 import Footer from '@/components/Footer';
 import Image from 'next/image';
@@ -211,7 +213,7 @@ export default function AccessMonitoring() {
             </svg>
             <div className="absolute left-1/4 top-1/2 w-96 h-96 bg-emerald-400/10 rounded-full blur-3xl animate-pulse-slow" style={{ zIndex: 1 }} />
             <div className="absolute right-1/4 bottom-0 w-72 h-72 bg-emerald-500/10 rounded-full blur-2xl animate-pulse-slower" style={{ zIndex: 1 }} />
-            <div className="absolute inset-0 bg-gradient-to-br from-transparent via-emerald-400/5 to-transparent animate-diagonal-move" style={{ zIndex: 2 }} />
+            <div className="absolute inset-0 bg-gradient-to-br from-transparent via-emerald-400/5 to-transparent animate-[shimmer_2s_infinite]" style={{ zIndex: 2, backgroundSize: '200% 200%' }} />
           </div>
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
             <div className="flex flex-col md:flex-row gap-8 md:gap-6 justify-center items-center">
@@ -240,25 +242,6 @@ export default function AccessMonitoring() {
               ))}
             </div>
           </div>
-          <style jsx>{`
-            @keyframes diagonal-move {
-              0% { background-position: 0% 0%; }
-              100% { background-position: 100% 100%; }
-            }
-            .animate-diagonal-move {
-              animation: diagonal-move 30s linear infinite;
-            }
-            .animate-pulse-slow {
-              animation: pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-            }
-            .animate-pulse-slower {
-              animation: pulse 16s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-            }
-            @keyframes pulse {
-              0%, 100% { opacity: 0.5; }
-              50% { opacity: 1; }
-            }
-          `}</style>
         </section>
 
         <FinalCTA />
