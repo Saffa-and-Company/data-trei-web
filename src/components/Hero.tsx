@@ -18,10 +18,10 @@ export default function Hero() {
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
             <Link
-              href="/get-started"
+              href="/signup"
               className="px-6 py-3 bg-[var(--accent-9)] text-[var(--gray-12)] font-medium rounded-md hover:bg-[var(--accent-11)] transition-colors"
             >
-              Get Started – Free
+              Join Waitlist
             </Link>
             <Link
               href="/contact"

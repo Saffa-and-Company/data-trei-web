@@ -40,7 +40,7 @@ const plans = [
   {
     name: "Canopy",
     subtitle: "Enterprise",
-    price: "800",
+    price: "999",
     priceSubtext: "starting at",
     features: [
       "50GB+ hot logs, 1TB+ cold logs",
@@ -140,7 +140,7 @@ export default function Pricing() {
     const planCosts: Record<PlanType, number> = {
       sprout: 0,
       branch: 89,
-      canopy: 800
+      canopy: 999
     };
     
     const planCost = planCosts[selectedPlan];

@@ -19,18 +19,18 @@ export default function FinalCTA() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="#"
+              <Link
+                href="/signup"
                 className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Join Waitlist
-              </a>
-              <a
-                href="/demo"
+              </Link>
+              <Link
+                href="/contact"
                 className="inline-flex items-center px-8 py-4 text-base font-medium text-white bg-transparent border border-white/20 rounded-md hover:bg-white/5 transition-colors"
               >
                 Talk to a Human
-              </a>
+              </Link>
             </div>
           </div>
         </div>

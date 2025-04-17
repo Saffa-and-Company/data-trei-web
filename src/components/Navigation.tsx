@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, Transition } from '@headlessui/react';
-import { Menu as MenuIcon, X } from 'lucide-react';
+import { Menu as MenuIcon, X, LayoutList } from 'lucide-react';
 import { Fragment } from 'react';
 import {
   Shield,
@@ -51,6 +51,7 @@ interface NavItem {
     description?: string;
     href: string;
     icon?: React.ReactNode;
+    comingSoon?: boolean;
   }[];
   sections?: {
     title: string;
@@ -61,6 +62,7 @@ interface NavItem {
       href: string;
       icon?: React.ReactNode;
       isMainOverview?: boolean;
+      comingSoon?: boolean;
     }[];
   }[];
 }
@@ -298,36 +300,210 @@ const navigation: NavItem[] = [
   { label: 'Enterprise', href: '/enterprise' },
   { label: 'Pricing', href: '/pricing' },
   { label: 'Company', href: '/company' },
-  { label: 'Learning', href: '/learning' },
   {
-    label: 'Resources',
-    items: [
-      { title: 'Whitepapers', href: '/resources/whitepapers', icon: <FileText size={20} /> },
-      { title: 'Case Studies', href: '/resources/case-studies', icon: <FileText size={20} /> },
-      { title: 'Product Comparisons', href: '/resources/comparisons', icon: <BarChart size={20} /> },
-      { title: 'ROI Calculator', href: '/resources/roi-calculator', icon: <Calculator size={20} /> },
-      { title: 'Solution Briefs', href: '/resources/solution-briefs', icon: <FileText size={20} /> },
-      { title: 'Documentation', href: '/docs', icon: <FileCode size={20} /> },
-      { title: 'API', href: '/docs/api', icon: <Code size={20} /> },
-      { title: 'Changelog', href: '/changelog', icon: <FileText size={20} /> },
-      { title: 'Glossary', href: '/docs/glossary', icon: <Book size={20} /> },
-      { title: 'Contact Support', href: '/support', icon: <MessageCircle size={20} /> },
+    label: 'Learning',
+    sections: [
+      {
+        title: 'Learning Overview',
+        isOverview: true,
+        items: [
+          {
+            title: 'Learning Center Overview',
+            description: 'Access comprehensive resources to master Data Trei and enterprise security',
+            href: '/learning',
+            icon: <Book size={24} />,
+            isMainOverview: true
+          }
+        ]
+      },
+      {
+        title: 'Learning Resources',
+        items: [
+          { 
+            title: 'Community', 
+            href: '/learning/community', 
+            icon: <Users size={20} />,
+            description: 'Learn Data Trei inside the world\'s leading enterprise security network',
+            comingSoon: true
+          },
+          { 
+            title: 'Support & Documentation', 
+            href: '/learning/documentation', 
+            icon: <FileText size={20} />,
+            description: 'Log definitions, architecture diagrams, and help guides',
+            comingSoon: true
+          },
+          { 
+            title: 'Professional Services', 
+            href: '/learning/professional-services', 
+            icon: <UserCog size={20} />,
+            description: 'Accelerate time-to-value with hands-on guidance',
+            comingSoon: true
+          },
+          { 
+            title: 'Security Center', 
+            href: '/learning/security-center', 
+            icon: <Shield size={20} />,
+            description: 'Enterprise-grade security training for Maximo and mission-critical environments',
+            comingSoon: true
+          },
+          { 
+            title: 'Integrations', 
+            href: '/learning/integrations', 
+            icon: <LinkIcon size={20} />,
+            description: 'Optimize your security workflows with integrations from Maximo, ServiceNow, Slack, and more',
+            comingSoon: true
+          },
+        ],
+      },
     ],
   },
   {
-    label: 'Open Source',
-    items: [
-      { title: 'Data Trei SDK for Python', href: '/open-source/python-sdk', icon: <FileCode size={20} /> },
-      { title: 'Data Trei CLI', href: '/open-source/cli', icon: <Terminal size={20} /> },
-      { title: 'GitHub Action', href: '/open-source/github-action', icon: <Github size={20} /> },
-      { title: 'SDK for Node.js (Coming Soon)', href: '/open-source/nodejs-sdk', icon: <Box size={20} /> },
-      { title: 'data-trei-demo-pipeline', href: '/open-source/demo-pipeline', icon: <Code size={20} /> },
-      { title: 'go-trei', href: '/open-source/go-trei', icon: <Code size={20} /> },
-      { title: 'Community Contributions', href: '/open-source/community', icon: <Users size={20} /> },
-      { title: 'Developer Hub', href: '/developers', icon: <Laptop size={20} /> },
+    label: 'Developer',
+    sections: [
+      {
+        title: 'Developer Overview',
+        isOverview: true,
+        items: [
+          {
+            title: 'Developer Hub Overview',
+            description: 'Access comprehensive developer resources, SDKs, and documentation',
+            href: '/developer',
+            icon: <Code size={24} />,
+            isMainOverview: true,
+            comingSoon: true
+          }
+        ]
+      },
+      {
+        title: 'Developer Resources',
+        items: [
+          { 
+            title: 'Data Trei SDK for Python', 
+            href: '/developer/python-sdk', 
+            icon: <FileCode size={20} />,
+            description: 'Easily integrate and parse logs using our Python SDK',
+            comingSoon: true
+          },
+          { 
+            title: 'Data Trei CLI', 
+            href: '/developer/cli', 
+            icon: <Terminal size={20} />,
+            description: 'Control your ingestion, anomaly detection, and automation workflows from the command line',
+            comingSoon: true
+          },
+          { 
+            title: 'GitHub Action', 
+            href: '/developer/github-action', 
+            icon: <Github size={20} />,
+            description: 'Trigger event-based pipelines for real-time SecOps integration',
+            comingSoon: true
+          },
+          { 
+            title: 'SDK for Node.js', 
+            href: '/developer/nodejs-sdk', 
+            icon: <Box size={20} />,
+            description: 'Node-native tools for ingesting and manipulating observability data',
+            comingSoon: true
+          },
+          { 
+            title: 'data-trei-demo-pipeline', 
+            href: '/developer/demo-pipeline', 
+            icon: <Code size={20} />,
+            description: 'A reference repo for running end-to-end Data Trei workflows',
+            comingSoon: true
+          },
+          { 
+            title: 'go-trei', 
+            href: '/developer/go-trei', 
+            icon: <Code size={20} />,
+            description: 'Lightweight agent in Go for faster edge deployments',
+            comingSoon: true
+          },
+          { 
+            title: 'Community Contributions', 
+            href: '/developer/community', 
+            icon: <Users size={20} />,
+            description: 'Open-source contributions, enhancements, and feature extensions',
+            comingSoon: true
+          },
+          { 
+            title: 'Developer Hub', 
+            href: '/developer/hub', 
+            icon: <Laptop size={20} />,
+            description: 'All docs, examples, and SDK references in one place',
+            comingSoon: true
+          },
+        ],
+      },
     ],
   },
-  { label: 'Support', href: '/support' },
+  {
+    label: 'Support',
+    sections: [
+      {
+        title: 'Support Overview',
+        isOverview: true,
+        items: [
+          {
+            title: 'Support Center Overview',
+            description: 'Access comprehensive support resources and expert guidance',
+            href: '/support',
+            icon: <MessageCircle size={24} />,
+            isMainOverview: true,
+            comingSoon: true
+          }
+        ]
+      },
+      {
+        title: 'Support Resources',
+        items: [
+          { 
+            title: 'Community', 
+            href: '/support/community', 
+            icon: <Users size={20} />,
+            description: 'Learn Data Trei on the world\'s largest DevSecOps community',
+            comingSoon: true
+          },
+          { 
+            title: 'Support & Documentation', 
+            href: '/support/documentation', 
+            icon: <FileText size={20} />,
+            description: 'FAQs, definitions, and end-to-end troubleshooting help',
+            comingSoon: true
+          },
+          { 
+            title: 'Professional Services', 
+            href: '/support/professional-services', 
+            icon: <UserCog size={20} />,
+            description: 'Accelerate time-to-value with expert guidance',
+            comingSoon: true
+          },
+          { 
+            title: 'Security Center', 
+            href: '/support/security-center', 
+            icon: <Shield size={20} />,
+            description: 'Enterprise-grade security and compliance resources',
+            comingSoon: true
+          },
+          { 
+            title: 'Integrations', 
+            href: '/support/integrations', 
+            icon: <LinkIcon size={20} />,
+            description: 'Optimize your ecosystem with flexible, pre-built integrations',
+            comingSoon: true
+          },
+          { 
+            title: 'All Support Resources', 
+            href: '/support/resources', 
+            icon: <LayoutList size={20} />,
+            description: 'Explore our full support and success catalog',
+            comingSoon: true
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 const Navigation = () => {
@@ -337,6 +513,21 @@ const Navigation = () => {
   const handleNavigationClick = () => {
     setMobileMenuOpen(false);
     setActiveSection(null);
+  };
+
+  const getDefaultSection = (label: string) => {
+    switch (label) {
+      case 'Solutions':
+        return 'By Challenge';
+      case 'Learning':
+        return 'Learning Resources';
+      case 'Developer':
+        return 'Developer Resources';
+      case 'Support':
+        return 'Support Resources';
+      default:
+        return null;
+    }
   };
 
   return (
@@ -371,12 +562,11 @@ const Navigation = () => {
               ) : (
                 <Menu as="div" key={item.label} className="relative">
                   {({ open }) => {
-                    // Set default active section when menu opens
                     React.useEffect(() => {
                       if (open) {
-                        setActiveSection('By Challenge');
+                        setActiveSection(getDefaultSection(item.label));
                       }
-                    }, [open]);
+                    }, [open, item.label]);
 
                     return (
                       <>
@@ -400,159 +590,190 @@ const Navigation = () => {
                           leaveFrom="transform opacity-100 scale-100"
                           leaveTo="transform opacity-0 scale-95"
                         >
-                          <Menu.Items className="absolute left-0 z-10 mt-2 origin-top-left rounded-md bg-[#1A1A1A] shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            {item.sections ? (
-                              // Mega menu for Solutions with hover effect
-                              <div className="flex w-[1200px]">
-                                <div className="flex-1">
-                                  {/* Platform Overview Section */}
-                                  {item.sections[0].isOverview && (
-                                    <div className="p-6 bg-gray-900/50 rounded-tl-md">
-                                      {item.sections[0].items.map((overviewItem) => (
-                                        <Link
-                                          key={overviewItem.title}
-                                          href={overviewItem.href}
-                                          className="group flex items-center justify-between hover:bg-gray-800/50 rounded-md p-4"
-                                          onClick={handleNavigationClick}
-                                        >
-                                          <div className="flex items-center gap-4">
-                                            <span className="flex-shrink-0 w-8 h-8 text-[#3EE8B5]">
-                                              {overviewItem.icon}
-                                            </span>
-                                            <div>
-                                              <div className="text-lg font-medium text-white">{overviewItem.title}</div>
-                                              <p className="text-sm text-gray-400">{overviewItem.description}</p>
-                                            </div>
-                                          </div>
-                                          <svg
-                                            className="w-5 h-5 text-gray-400 group-hover:text-white"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                          >
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                          </svg>
-                                        </Link>
-                                      ))}
-                                    </div>
-                                  )}
-
-                                  {/* Main Categories Section */}
-                                  <div className="flex">
-                                    {/* Categories List */}
-                                    <div className="w-48 p-6 border-r border-gray-800">
-                                      <div className="space-y-2">
-                                        {item.sections.slice(1).map((section) => (
-                                          <div
-                                            key={section.title}
-                                            className="relative group"
-                                            onMouseEnter={() => setActiveSection(section.title)}
-                                          >
-                                            <button
-                                              className={`w-full text-left px-4 py-2 text-sm rounded-md transition-colors ${
-                                                activeSection === section.title
-                                                  ? 'bg-gray-800 text-white'
-                                                  : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
-                                              }`}
+                          <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 pointer-events-none">
+                            <Menu.Items className="w-full pointer-events-auto">
+                              <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+                                {item.sections ? (
+                                  <div className={`flex mx-auto ${item.label === 'Support' || item.label === 'Developer' ? 'max-w-[1200px]' : 'max-w-[1200px]'} bg-[#1A1A1A] rounded-md shadow-lg ring-1 ring-black ring-opacity-5`}>
+                                    <div className="flex-1">
+                                      {/* Platform Overview Section */}
+                                      {item.sections[0].isOverview && (
+                                        <div className="p-6 bg-gray-900/50 rounded-tl-md">
+                                          {item.sections[0].items.map((overviewItem) => (
+                                            <div
+                                              key={overviewItem.title}
+                                              className={`group flex items-center justify-between ${overviewItem.comingSoon ? 'cursor-not-allowed opacity-75' : 'hover:bg-gray-800/50'} rounded-md p-4`}
                                             >
-                                              {section.title}
-                                            </button>
+                                              <div className="flex items-center gap-4">
+                                                <span className="flex-shrink-0 w-8 h-8 text-[#3EE8B5]">
+                                                  {overviewItem.icon}
+                                                </span>
+                                                <div>
+                                                  <div className="text-lg font-medium text-white flex items-center gap-2">
+                                                    {overviewItem.title}
+                                                    {overviewItem.comingSoon && (
+                                                      <span className="text-xs text-gray-500 italic">Coming Soon</span>
+                                                    )}
+                                                  </div>
+                                                  <p className="text-sm text-gray-400">{overviewItem.description}</p>
+                                                </div>
+                                              </div>
+                                              {!overviewItem.comingSoon && (
+                                                <svg
+                                                  className="w-5 h-5 text-gray-400 group-hover:text-white"
+                                                  fill="none"
+                                                  viewBox="0 0 24 24"
+                                                  stroke="currentColor"
+                                                >
+                                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                                </svg>
+                                              )}
+                                            </div>
+                                          ))}
+                                        </div>
+                                      )}
+
+                                      {/* Main Categories Section */}
+                                      <div className="flex">
+                                        {/* Categories List */}
+                                        <div className="w-48 p-6 border-r border-gray-800">
+                                          <div className="space-y-2">
+                                            {item.sections.slice(1).map((section) => (
+                                              <div
+                                                key={section.title}
+                                                className="relative group"
+                                                onMouseEnter={(e) => {
+                                                  setActiveSection(section.title);
+                                                }}
+                                              >
+                                                <button
+                                                  className={`w-full text-left px-4 py-2 text-sm rounded-md transition-colors ${
+                                                    activeSection === section.title
+                                                      ? 'bg-gray-800 text-white'
+                                                      : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
+                                                  }`}
+                                                >
+                                                  {section.title}
+                                                </button>
+                                              </div>
+                                            ))}
                                           </div>
-                                        ))}
+                                        </div>
+
+                                        {/* Sub-menu Content */}
+                                        <div className="flex-1 p-6">
+                                          {activeSection && (
+                                            <>
+                                              <h4 className="text-base font-semibold text-white mb-4">
+                                                {activeSection}
+                                              </h4>
+                                              <div className="grid grid-cols-2 gap-4">
+                                                {item.sections.find(section => section.title === activeSection)?.items.map((subItem) => (
+                                                  subItem.comingSoon ? (
+                                                    <div
+                                                      key={subItem.title}
+                                                      className="group flex items-start gap-3 text-gray-400 p-4 rounded-md cursor-not-allowed opacity-75"
+                                                    >
+                                                      <span className="flex-shrink-0 w-6 h-6 mt-1 text-gray-500">
+                                                        {subItem.icon}
+                                                      </span>
+                                                      <div className="min-w-0">
+                                                        <div className="text-sm font-medium mb-1 flex items-center gap-2">
+                                                          {subItem.title}
+                                                          <span className="text-xs text-gray-500 italic">Coming Soon</span>
+                                                        </div>
+                                                        {subItem.description && (
+                                                          <p className="text-xs text-gray-500">{subItem.description}</p>
+                                                        )}
+                                                      </div>
+                                                    </div>
+                                                  ) : (
+                                                    <Link
+                                                      key={subItem.title}
+                                                      href={subItem.href}
+                                                      className="group flex items-start gap-3 text-gray-300 hover:text-white p-4 rounded-md hover:bg-gray-800/50"
+                                                      onClick={handleNavigationClick}
+                                                    >
+                                                      <span className="flex-shrink-0 w-6 h-6 mt-1 text-gray-400 group-hover:text-[#3EE8B5]">
+                                                        {subItem.icon}
+                                                      </span>
+                                                      <div className="min-w-0">
+                                                        <div className="text-sm font-medium mb-1">
+                                                          {subItem.title}
+                                                        </div>
+                                                        {subItem.description && (
+                                                          <p className="text-xs text-gray-500">{subItem.description}</p>
+                                                        )}
+                                                      </div>
+                                                    </Link>
+                                                  )
+                                                ))}
+                                              </div>
+                                            </>
+                                          )}
+                                        </div>
                                       </div>
                                     </div>
 
-                                    {/* Sub-menu Content */}
-                                    <div 
-                                      className="flex-1 p-6"
-                                      onMouseLeave={() => setActiveSection(null)}
-                                    >
-                                      {activeSection && (
-                                        <>
-                                          <h4 className="text-base font-semibold text-white mb-4">
-                                            {activeSection}
-                                          </h4>
-                                          <div className="grid grid-cols-2 gap-6">
-                                            {item.sections.find(section => section.title === activeSection)?.items.map((subItem) => (
-                                              <Link
-                                                key={subItem.title}
-                                                href={subItem.href}
-                                                className="group flex items-start gap-3 text-gray-300 hover:text-white p-4 rounded-md hover:bg-gray-800/50"
-                                                onClick={handleNavigationClick}
-                                              >
-                                                <span className="flex-shrink-0 w-6 h-6 mt-1 text-gray-400 group-hover:text-[#3EE8B5]">
-                                                  {subItem.icon}
-                                                </span>
-                                                <div className="min-w-0">
-                                                  <div className="text-sm font-medium mb-1">{subItem.title}</div>
-                                                  {subItem.description && (
-                                                    <p className="text-xs text-gray-500">{subItem.description}</p>
-                                                  )}
-                                                </div>
-                                              </Link>
-                                            ))}
+                                    {/* Standardized CTA Section for all dropdowns */}
+                                    {(item.label === 'Solutions' || item.label === 'Learning' || item.label === 'Developer' || item.label === 'Support') && (
+                                      <div className="w-[350px] p-6 bg-gray-900/30 border-l border-gray-800">
+                                        <div className="bg-gray-800/50 rounded-lg p-4 mb-4 relative overflow-hidden">
+                                          <Image
+                                            src="/solution overview-datatrei.png"
+                                            alt="Data Trei Platform Overview"
+                                            width={320}
+                                            height={180}
+                                            className="w-full h-auto rounded-md"
+                                            priority
+                                          />
+                                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent flex flex-col justify-end p-4">
+                                            <h4 className="text-[#3EE8B5] font-semibold mb-1">
+                                              The Future of Asset Management Security is here
+                                            </h4>
+                                            <p className="text-white text-sm">
+                                              Unlock the Power of Data Trei's Intelligent Platform today
+                                            </p>
                                           </div>
-                                        </>
-                                      )}
-                                    </div>
-                                  </div>
-                                </div>
-
-                                {/* CTA Section */}
-                                <div className="w-[350px] p-6 bg-gray-900/30 border-l border-gray-800">
-                                  <div className="bg-gray-800/50 rounded-lg p-4 mb-4 relative overflow-hidden">
-                                    <Image
-                                      src="/solution overview-datatrei.png"
-                                      alt="Data Trei Solution Overview"
-                                      width={320}
-                                      height={180}
-                                      className="w-full h-auto rounded-md"
-                                      priority
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent flex flex-col justify-end p-4">
-                                      <h4 className="text-[#3EE8B5] font-semibold mb-1">
-                                        The Future of Asset Management Security is here
-                                      </h4>
-                                      <p className="text-white text-sm">
-                                        Unlock the Power of Data Trei's Intelligent Platform today
-                                      </p>
-                                    </div>
-                                  </div>
-                                  <h3 className="text-lg font-semibold text-white mb-2">Get Free Access to Data Trei Today</h3>
-                                  <p className="text-xs text-gray-400 mb-4">Use it for free (no credit card required)</p>
-                                  <a
-                                    href="#"
-                                    className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                    onClick={handleNavigationClick}
-                                  >
-                                    Join Waitlist
-                                  </a>
-                                </div>
-                              </div>
-                            ) : (
-                              // Regular dropdown for Resources and Open Source
-                              <div className="py-6 px-4 w-80">
-                                {item.items?.map((subItem) => (
-                                  <Menu.Item key={subItem.title}>
-                                    {({ active }) => (
-                                      <Link
-                                        href={subItem.href}
-                                        className={`${
-                                          active ? 'text-white' : 'text-gray-300'
-                                        } group flex items-center gap-4 px-6 py-3 text-base`}
-                                        onClick={handleNavigationClick}
-                                      >
-                                        <span className="flex-shrink-0 w-6 h-6 text-gray-400 group-hover:text-[#3EE8B5]">
-                                          {subItem.icon}
-                                        </span>
-                                        {subItem.title}
-                                      </Link>
+                                        </div>
+                                        <h3 className="text-lg font-semibold text-white mb-2">Get Free Access to Data Trei Today</h3>
+                                        <p className="text-xs text-gray-400 mb-4">Use it for free (no credit card required)</p>
+                                        <a
+                                          href="#"
+                                          className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                          onClick={handleNavigationClick}
+                                        >
+                                          Join Waitlist
+                                        </a>
+                                      </div>
                                     )}
-                                  </Menu.Item>
-                                ))}
+                                  </div>
+                                ) : (
+                                  // Regular dropdown
+                                  <div className="py-6 px-4 w-80">
+                                    {item.items?.map((subItem) => (
+                                      <Menu.Item key={subItem.title}>
+                                        {({ active }) => (
+                                          <Link
+                                            href={subItem.href}
+                                            className={`${
+                                              active ? 'text-white' : 'text-gray-300'
+                                            } group flex items-center gap-4 px-6 py-3 text-base`}
+                                            onClick={handleNavigationClick}
+                                          >
+                                            <span className="flex-shrink-0 w-6 h-6 text-gray-400 group-hover:text-[#3EE8B5]">
+                                              {subItem.icon}
+                                            </span>
+                                            {subItem.title}
+                                          </Link>
+                                        )}
+                                      </Menu.Item>
+                                    ))}
+                                  </div>
+                                )}
                               </div>
-                            )}
-                          </Menu.Items>
+                            </Menu.Items>
+                          </div>
                         </Transition>
                       </>
                     );
@@ -566,7 +787,6 @@ const Navigation = () => {
             <Link
               href="/signup"
               className="ml-4 px-4 py-2 bg-[#3EE8B5] text-black text-sm font-medium rounded-md hover:bg-[#3EE8B5]/90 transition-colors"
-              onClick={handleNavigationClick}
             >
               Join Waitlist
             </Link>
@@ -624,13 +844,15 @@ const Navigation = () => {
                 )}
               </div>
             ))}
-            <Link
-              href="/signup"
-              className="block w-full text-center bg-[#3EE8B5] text-black px-4 py-2 rounded-md text-base font-medium hover:bg-[#3EE8B5]/90 transition-colors mt-4"
-              onClick={handleNavigationClick}
-            >
-              Join Waitlist
-            </Link>
+            <div className="pl-4 space-y-1">
+              <Link
+                href="/signup"
+                className="block w-full text-center bg-[#3EE8B5] text-black px-4 py-2 rounded-md text-base font-medium hover:bg-[#3EE8B5]/90 transition-colors mt-4"
+                onClick={handleNavigationClick}
+              >
+                Join Waitlist
+              </Link>
+            </div>
           </div>
         </div>
       )}
