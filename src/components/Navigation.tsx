@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, Transition } from '@headlessui/react';
-import { Menu as MenuIcon, X, LayoutList } from 'lucide-react';
+import { Menu as MenuIcon, X, LayoutList, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Fragment } from 'react';
 import {
   Shield,
@@ -508,12 +508,9 @@ const navigation: NavItem[] = [
 
 const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState<string | null>(null);
-
-  const handleNavigationClick = () => {
-    setMobileMenuOpen(false);
-    setActiveSection(null);
-  };
+  const [desktopActiveSection, setDesktopActiveSection] = useState<string | null>(null);
 
   const getDefaultSection = (label: string) => {
     switch (label) {
@@ -530,333 +527,433 @@ const Navigation = () => {
     }
   };
 
-  return (
-    <nav className="fixed w-full z-50 bg-black/90 backdrop-blur-sm border-b border-gray-800">
-      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center h-16">
-          <div className="flex-shrink-0">
-            <Link href="/" className="flex items-center" onClick={handleNavigationClick}>
-              <Image
-                src="/datatreilogo2.svg"
-                alt="Data Trei Logo"
-                width={360}
-                height={96}
-                className="h-12 w-auto"
-                priority
-              />
-            </Link>
-          </div>
+  const resetMobileMenu = () => {
+    setActiveMenu(null);
+    setActiveSection(null);
+  };
 
-          {/* Desktop Navigation - Centered */}
-          <div className="hidden lg:flex lg:items-center lg:justify-center flex-1 lg:space-x-6">
-            {navigation.map((item) => (
-              item.href ? (
+  const handleClose = () => {
+    resetMobileMenu();
+    setMobileMenuOpen(false);
+  };
+
+  const getMobileMenuContent = () => {
+    if (activeMenu) {
+      const navItem = navigation.find(item => item.label === activeMenu);
+      if (!navItem?.sections) return null;
+
+      if (activeSection) {
+        const section = navItem.sections.find(s => s.title === activeSection);
+        if (!section) return null;
+
+        return (
+          <>
+            <div className="flex items-center p-4 border-b border-white/10">
+              <button onClick={() => setActiveSection(null)} className="flex items-center text-gray-400">
+                <ChevronLeft className="h-5 w-5 mr-2" />
+                <span>{activeSection}</span>
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto py-4">
+              {section.items.map((item) => (
                 <Link
-                  key={item.label}
+                  key={item.title}
                   href={item.href}
-                  className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium"
-                  onClick={handleNavigationClick}
+                  className="flex items-start p-4 border-b border-white/10 group"
+                  onClick={handleClose}
                 >
-                  {item.label}
+                  <span className="flex-shrink-0 w-6 h-6 mt-1 mr-3 text-gray-400 group-hover:text-emerald-500">
+                    {item.icon}
+                  </span>
+                  <div>
+                    <div className="font-medium text-white group-hover:text-emerald-500">{item.title}</div>
+                    {item.description && (
+                      <p className="text-sm text-gray-400 mt-1">{item.description}</p>
+                    )}
+                    {item.comingSoon && (
+                      <span className="inline-block mt-1 text-xs text-gray-500">Coming Soon</span>
+                    )}
+                  </div>
                 </Link>
-              ) : (
-                <Menu as="div" key={item.label} className="relative">
-                  {({ open }) => {
-                    React.useEffect(() => {
-                      if (open) {
-                        setActiveSection(getDefaultSection(item.label));
-                      }
-                    }, [open, item.label]);
+              ))}
+            </div>
+          </>
+        );
+      }
 
-                    return (
-                      <>
-                        <Menu.Button className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium flex items-center">
-                          {item.label}
-                          <svg
-                            className={`ml-1 h-4 w-4 transition-transform ${open ? 'rotate-180' : ''}`}
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                          </svg>
-                        </Menu.Button>
-                        <Transition
-                          as={Fragment}
-                          enter="transition ease-out duration-100"
-                          enterFrom="transform opacity-0 scale-95"
-                          enterTo="transform opacity-100 scale-100"
-                          leave="transition ease-in duration-75"
-                          leaveFrom="transform opacity-100 scale-100"
-                          leaveTo="transform opacity-0 scale-95"
-                        >
-                          <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 pointer-events-none">
-                            <Menu.Items className="w-full pointer-events-auto">
-                              <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-                                {item.sections ? (
-                                  <div className={`flex mx-auto ${item.label === 'Support' || item.label === 'Developer' ? 'max-w-[1200px]' : 'max-w-[1200px]'} bg-[#1A1A1A] rounded-md shadow-lg ring-1 ring-black ring-opacity-5`}>
-                                    <div className="flex-1">
-                                      {/* Platform Overview Section */}
-                                      {item.sections[0].isOverview && (
-                                        <div className="p-6 bg-gray-900/50 rounded-tl-md">
-                                          {item.sections[0].items.map((overviewItem) => (
-                                            <div
-                                              key={overviewItem.title}
-                                              className={`group flex items-center justify-between ${overviewItem.comingSoon ? 'cursor-not-allowed opacity-75' : 'hover:bg-gray-800/50'} rounded-md p-4`}
-                                            >
-                                              <div className="flex items-center gap-4">
-                                                <span className="flex-shrink-0 w-8 h-8 text-[#3EE8B5]">
-                                                  {overviewItem.icon}
-                                                </span>
-                                                <div>
-                                                  <div className="text-lg font-medium text-white flex items-center gap-2">
-                                                    {overviewItem.title}
-                                                    {overviewItem.comingSoon && (
-                                                      <span className="text-xs text-gray-500 italic">Coming Soon</span>
-                                                    )}
-                                                  </div>
-                                                  <p className="text-sm text-gray-400">{overviewItem.description}</p>
-                                                </div>
-                                              </div>
-                                              {!overviewItem.comingSoon && (
-                                                <svg
-                                                  className="w-5 h-5 text-gray-400 group-hover:text-white"
-                                                  fill="none"
-                                                  viewBox="0 0 24 24"
-                                                  stroke="currentColor"
-                                                >
-                                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                                </svg>
-                                              )}
-                                            </div>
-                                          ))}
-                                        </div>
-                                      )}
-
-                                      {/* Main Categories Section */}
-                                      <div className="flex">
-                                        {/* Categories List */}
-                                        <div className="w-48 p-6 border-r border-gray-800">
-                                          <div className="space-y-2">
-                                            {item.sections.slice(1).map((section) => (
-                                              <div
-                                                key={section.title}
-                                                className="relative group"
-                                                onMouseEnter={(e) => {
-                                                  setActiveSection(section.title);
-                                                }}
-                                              >
-                                                <button
-                                                  className={`w-full text-left px-4 py-2 text-sm rounded-md transition-colors ${
-                                                    activeSection === section.title
-                                                      ? 'bg-gray-800 text-white'
-                                                      : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
-                                                  }`}
-                                                >
-                                                  {section.title}
-                                                </button>
-                                              </div>
-                                            ))}
-                                          </div>
-                                        </div>
-
-                                        {/* Sub-menu Content */}
-                                        <div className="flex-1 p-6">
-                                          {activeSection && (
-                                            <>
-                                              <h4 className="text-base font-semibold text-white mb-4">
-                                                {activeSection}
-                                              </h4>
-                                              <div className="grid grid-cols-2 gap-4">
-                                                {item.sections.find(section => section.title === activeSection)?.items.map((subItem) => (
-                                                  subItem.comingSoon ? (
-                                                    <div
-                                                      key={subItem.title}
-                                                      className="group flex items-start gap-3 text-gray-400 p-4 rounded-md cursor-not-allowed opacity-75"
-                                                    >
-                                                      <span className="flex-shrink-0 w-6 h-6 mt-1 text-gray-500">
-                                                        {subItem.icon}
-                                                      </span>
-                                                      <div className="min-w-0">
-                                                        <div className="text-sm font-medium mb-1 flex items-center gap-2">
-                                                          {subItem.title}
-                                                          <span className="text-xs text-gray-500 italic">Coming Soon</span>
-                                                        </div>
-                                                        {subItem.description && (
-                                                          <p className="text-xs text-gray-500">{subItem.description}</p>
-                                                        )}
-                                                      </div>
-                                                    </div>
-                                                  ) : (
-                                                    <Link
-                                                      key={subItem.title}
-                                                      href={subItem.href}
-                                                      className="group flex items-start gap-3 text-gray-300 hover:text-white p-4 rounded-md hover:bg-gray-800/50"
-                                                      onClick={handleNavigationClick}
-                                                    >
-                                                      <span className="flex-shrink-0 w-6 h-6 mt-1 text-gray-400 group-hover:text-[#3EE8B5]">
-                                                        {subItem.icon}
-                                                      </span>
-                                                      <div className="min-w-0">
-                                                        <div className="text-sm font-medium mb-1">
-                                                          {subItem.title}
-                                                        </div>
-                                                        {subItem.description && (
-                                                          <p className="text-xs text-gray-500">{subItem.description}</p>
-                                                        )}
-                                                      </div>
-                                                    </Link>
-                                                  )
-                                                ))}
-                                              </div>
-                                            </>
-                                          )}
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                    {/* Standardized CTA Section for all dropdowns */}
-                                    {(item.label === 'Solutions' || item.label === 'Learning' || item.label === 'Developer' || item.label === 'Support') && (
-                                      <div className="w-[350px] p-6 bg-gray-900/30 border-l border-gray-800">
-                                        <div className="bg-gray-800/50 rounded-lg p-4 mb-4 relative overflow-hidden">
-                                          <Image
-                                            src="/solution overview-datatrei.png"
-                                            alt="Data Trei Platform Overview"
-                                            width={320}
-                                            height={180}
-                                            className="w-full h-auto rounded-md"
-                                            priority
-                                          />
-                                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent flex flex-col justify-end p-4">
-                                            <h4 className="text-[#3EE8B5] font-semibold mb-1">
-                                              The Future of Asset Management Security is here
-                                            </h4>
-                                            <p className="text-white text-sm">
-                                              Unlock the Power of Data Trei's Intelligent Platform today
-                                            </p>
-                                          </div>
-                                        </div>
-                                        <h3 className="text-lg font-semibold text-white mb-2">Get Free Access to Data Trei Today</h3>
-                                        <p className="text-xs text-gray-400 mb-4">Use it for free (no credit card required)</p>
-                                        <a
-                                          href="#"
-                                          className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                          onClick={handleNavigationClick}
-                                        >
-                                          Join Waitlist
-                                        </a>
-                                      </div>
-                                    )}
-                                  </div>
-                                ) : (
-                                  // Regular dropdown
-                                  <div className="py-6 px-4 w-80">
-                                    {item.items?.map((subItem) => (
-                                      <Menu.Item key={subItem.title}>
-                                        {({ active }) => (
-                                          <Link
-                                            href={subItem.href}
-                                            className={`${
-                                              active ? 'text-white' : 'text-gray-300'
-                                            } group flex items-center gap-4 px-6 py-3 text-base`}
-                                            onClick={handleNavigationClick}
-                                          >
-                                            <span className="flex-shrink-0 w-6 h-6 text-gray-400 group-hover:text-[#3EE8B5]">
-                                              {subItem.icon}
-                                            </span>
-                                            {subItem.title}
-                                          </Link>
-                                        )}
-                                      </Menu.Item>
-                                    ))}
-                                  </div>
-                                )}
-                              </div>
-                            </Menu.Items>
-                          </div>
-                        </Transition>
-                      </>
-                    );
-                  }}
-                </Menu>
-              )
-            ))}
-          </div>
-
-          <div className="hidden lg:flex lg:items-center lg:justify-end">
-            <Link
-              href="/signup"
-              className="ml-4 px-4 py-2 bg-[#3EE8B5] text-black text-sm font-medium rounded-md hover:bg-[#3EE8B5]/90 transition-colors"
-            >
-              Join Waitlist
-            </Link>
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="lg:hidden">
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none"
-            >
-              {mobileMenuOpen ? <X className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />}
+      return (
+        <>
+          <div className="flex items-center p-4 border-b border-white/10">
+            <button onClick={() => setActiveMenu(null)} className="flex items-center text-gray-400">
+              <ChevronLeft className="h-5 w-5 mr-2" />
+              <span>{activeMenu}</span>
             </button>
           </div>
-        </div>
-      </div>
+          <div className="flex-1 overflow-y-auto py-4">
+            {navItem.sections.map((section) => (
+              <div key={section.title} className="border-b border-white/10">
+                {section.isOverview ? (
+                  section.items.map((item) => (
+                    <Link
+                      key={item.title}
+                      href={item.href}
+                      className="flex items-start p-4 group"
+                      onClick={handleClose}
+                    >
+                      <span className="flex-shrink-0 w-8 h-8 mt-1 mr-3 text-emerald-500">
+                        {item.icon}
+                      </span>
+                      <div>
+                        <div className="font-medium text-white group-hover:text-emerald-500">{item.title}</div>
+                        {item.description && (
+                          <p className="text-sm text-gray-400 mt-1">{item.description}</p>
+                        )}
+                      </div>
+                    </Link>
+                  ))
+                ) : (
+                  <button
+                    onClick={() => setActiveSection(section.title)}
+                    className="flex items-center justify-between w-full p-4 text-left"
+                  >
+                    <span className="text-white font-medium">{section.title}</span>
+                    <ChevronRight className="h-5 w-5 text-gray-400" />
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+        </>
+      );
+    }
 
-      {/* Mobile menu */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#1A1A1A]">
-          <div className="px-2 pt-2 pb-3 space-y-1">
-            {navigation.map((item) => (
-              <div key={item.label} className="space-y-1">
-                {item.href ? (
+    return (
+      <div className="flex-1 overflow-y-auto py-4">
+        {navigation.map((item) => (
+          <div key={item.label} className="border-b border-white/10">
+            {item.sections ? (
+              <button
+                onClick={() => setActiveMenu(item.label)}
+                className="flex items-center justify-between w-full p-4 text-left"
+              >
+                <span className="text-white font-medium">{item.label}</span>
+                <ChevronRight className="h-5 w-5 text-gray-400" />
+              </button>
+            ) : (
+              <Link
+                href={item.href || '#'}
+                className="flex items-center justify-between w-full p-4 text-white hover:bg-white/5"
+                onClick={handleClose}
+              >
+                <span className="text-white font-medium">{item.label}</span>
+              </Link>
+            )}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  return (
+    <>
+      <header className="fixed top-0 left-0 right-0 z-40 bg-black/80 backdrop-blur-sm border-b border-white/10">
+        <nav className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16">
+            {/* Logo */}
+            <div className="flex items-center">
+              <Link href="/" className="flex items-center">
+                <Image
+                  src="/datatreilogo2.svg"
+                  alt="Data Trei"
+                  width={160}
+                  height={40}
+                  className="h-10 w-auto"
+                  priority
+                />
+              </Link>
+            </div>
+
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex lg:items-center lg:space-x-8">
+              {navigation.map((item) => (
+                item.href ? (
                   <Link
+                    key={item.label}
                     href={item.href}
-                    className="text-gray-300 hover:text-white block px-3 py-2 text-base font-medium"
-                    onClick={handleNavigationClick}
+                    className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium"
                   >
                     {item.label}
                   </Link>
                 ) : (
-                  <>
-                    <button
-                      className="w-full text-left text-gray-300 hover:text-white block px-3 py-2 text-base font-medium"
-                    >
-                      {item.label}
-                    </button>
-                    <div className="pl-4 space-y-1">
-                      {item.items?.map((subItem) => (
-                        <Link
-                          key={subItem.title}
-                          href={subItem.href}
-                          className="text-gray-400 hover:text-white flex items-center gap-3 px-3 py-2 text-sm"
-                          onClick={handleNavigationClick}
-                        >
-                          <span className="flex-shrink-0 w-5 h-5 text-gray-400">
-                            {subItem.icon}
-                          </span>
-                          {subItem.title}
-                        </Link>
-                      ))}
-                    </div>
-                  </>
-                )}
-              </div>
-            ))}
-            <div className="pl-4 space-y-1">
+                  <Menu as="div" key={item.label} className="relative">
+                    {({ open }) => {
+                      React.useEffect(() => {
+                        if (open) {
+                          setDesktopActiveSection(getDefaultSection(item.label));
+                        }
+                      }, [open]);
+
+                      return (
+                        <>
+                          <Menu.Button className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium flex items-center">
+                            {item.label}
+                            <svg
+                              className={`ml-1 h-4 w-4 transition-transform ${open ? 'rotate-180' : ''}`}
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                          </Menu.Button>
+
+                          <Transition
+                            as={Fragment}
+                            enter="transition ease-out duration-100"
+                            enterFrom="transform opacity-0 scale-95"
+                            enterTo="transform opacity-100 scale-100"
+                            leave="transition ease-in duration-75"
+                            leaveFrom="transform opacity-100 scale-100"
+                            leaveTo="transform opacity-0 scale-95"
+                          >
+                            <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 pointer-events-none">
+                              <Menu.Items className="w-full pointer-events-auto">
+                                <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+                                  {item.sections && (
+                                    <div className={`flex mx-auto ${item.label === 'Support' || item.label === 'Developer' ? 'max-w-[1200px]' : 'max-w-[1200px]'} bg-[#1A1A1A] rounded-md shadow-lg ring-1 ring-black ring-opacity-5`}>
+                                      <div className="flex-1">
+                                        {/* Platform Overview Section */}
+                                        {item.sections[0].isOverview && (
+                                          <div className="p-6 bg-gray-900/50 rounded-tl-md">
+                                            {item.sections[0].items.map((overviewItem) => (
+                                              <div
+                                                key={overviewItem.title}
+                                                className={`group flex items-center justify-between ${overviewItem.comingSoon ? 'cursor-not-allowed opacity-75' : 'hover:bg-gray-800/50'} rounded-md p-4`}
+                                              >
+                                                <div className="flex items-center gap-4">
+                                                  <span className="flex-shrink-0 w-8 h-8 text-[#3EE8B5]">
+                                                    {overviewItem.icon}
+                                                  </span>
+                                                  <div>
+                                                    <div className="text-lg font-medium text-white flex items-center gap-2">
+                                                      {overviewItem.title}
+                                                      {overviewItem.comingSoon && (
+                                                        <span className="text-xs text-gray-500 italic">Coming Soon</span>
+                                                      )}
+                                                    </div>
+                                                    <p className="text-sm text-gray-400">{overviewItem.description}</p>
+                                                  </div>
+                                                </div>
+                                                {!overviewItem.comingSoon && (
+                                                  <svg
+                                                    className="w-5 h-5 text-gray-400 group-hover:text-white"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                  >
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                                  </svg>
+                                                )}
+                                              </div>
+                                            ))}
+                                          </div>
+                                        )}
+
+                                        {/* Main Categories Section */}
+                                        <div className="flex">
+                                          {/* Categories List */}
+                                          <div className="w-48 p-6 border-r border-gray-800">
+                                            <div className="space-y-2">
+                                              {item.sections.slice(1).map((section) => (
+                                                <div
+                                                  key={section.title}
+                                                  className="relative group"
+                                                >
+                                                  <button
+                                                    onClick={() => setDesktopActiveSection(section.title)}
+                                                    className={`w-full text-left px-4 py-2 text-sm rounded-md transition-colors ${
+                                                      section.title === desktopActiveSection ? 'bg-gray-800 text-white' : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
+                                                    }`}
+                                                  >
+                                                    {section.title}
+                                                  </button>
+                                                </div>
+                                              ))}
+                                            </div>
+                                          </div>
+
+                                          {/* Sub-menu Content */}
+                                          <div className="flex-1 p-6">
+                                            {open && (
+                                              <>
+                                                <h4 className="text-base font-semibold text-white mb-4">
+                                                  {item.label}
+                                                </h4>
+                                                <div className="grid grid-cols-2 gap-4">
+                                                  {item.sections.find(section => section.title === desktopActiveSection)?.items.map((subItem) => (
+                                                    subItem.comingSoon ? (
+                                                      <div
+                                                        key={subItem.title}
+                                                        className="group flex items-start gap-3 text-gray-400 p-4 rounded-md cursor-not-allowed opacity-75"
+                                                      >
+                                                        <span className="flex-shrink-0 w-6 h-6 mt-1 text-gray-500">
+                                                          {subItem.icon}
+                                                        </span>
+                                                        <div className="min-w-0">
+                                                          <div className="text-sm font-medium mb-1 flex items-center gap-2">
+                                                            {subItem.title}
+                                                            <span className="text-xs text-gray-500 italic">Coming Soon</span>
+                                                          </div>
+                                                          {subItem.description && (
+                                                            <p className="text-xs text-gray-500">{subItem.description}</p>
+                                                          )}
+                                                        </div>
+                                                      </div>
+                                                    ) : (
+                                                      <Link
+                                                        key={subItem.title}
+                                                        href={subItem.href}
+                                                        className="group flex items-start gap-3 text-gray-300 hover:text-white p-4 rounded-md hover:bg-gray-800/50"
+                                                        onClick={handleClose}
+                                                      >
+                                                        <span className="flex-shrink-0 w-6 h-6 mt-1 text-gray-400 group-hover:text-[#3EE8B5]">
+                                                          {subItem.icon}
+                                                        </span>
+                                                        <div className="min-w-0">
+                                                          <div className="text-sm font-medium mb-1">
+                                                            {subItem.title}
+                                                          </div>
+                                                          {subItem.description && (
+                                                            <p className="text-xs text-gray-500">{subItem.description}</p>
+                                                          )}
+                                                        </div>
+                                                      </Link>
+                                                    )
+                                                  ))}
+                                                </div>
+                                              </>
+                                            )}
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      {/* Standardized CTA Section for all dropdowns */}
+                                      {(item.label === 'Solutions' || item.label === 'Learning' || item.label === 'Developer' || item.label === 'Support') && (
+                                        <div className="w-[350px] p-6 bg-gray-900/30 border-l border-gray-800">
+                                          <div className="bg-gray-800/50 rounded-lg p-4 mb-4 relative overflow-hidden">
+                                            <Image
+                                              src="/solution overview-datatrei.png"
+                                              alt="Data Trei Platform Overview"
+                                              width={320}
+                                              height={180}
+                                              className="w-full h-auto rounded-md"
+                                              priority
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent flex flex-col justify-end p-4">
+                                              <h4 className="text-[#3EE8B5] font-semibold mb-1">
+                                                The Future of Asset Management Security is here
+                                              </h4>
+                                              <p className="text-white text-sm">
+                                                Unlock the Power of Data Trei's Intelligent Platform today
+                                              </p>
+                                            </div>
+                                          </div>
+                                          <h3 className="text-lg font-semibold text-white mb-2">Get Free Access to Data Trei Today</h3>
+                                          <p className="text-xs text-gray-400 mb-4">Use it for free (no credit card required)</p>
+                                          <a
+                                            href="#"
+                                            className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                            onClick={handleClose}
+                                          >
+                                            Join Waitlist
+                                          </a>
+                                        </div>
+                                      )}
+                                    </div>
+                                  )}
+                                </div>
+                              </Menu.Items>
+                            </div>
+                          </Transition>
+                        </>
+                      );
+                    }}
+                  </Menu>
+                )
+              ))}
+            </div>
+
+            <div className="hidden lg:flex lg:items-center lg:justify-end">
               <Link
                 href="/signup"
-                className="block w-full text-center bg-[#3EE8B5] text-black px-4 py-2 rounded-md text-base font-medium hover:bg-[#3EE8B5]/90 transition-colors mt-4"
-                onClick={handleNavigationClick}
+                className="ml-4 px-4 py-2 bg-[#3EE8B5] text-black text-sm font-medium rounded-md hover:bg-[#3EE8B5]/90 transition-colors"
               >
                 Join Waitlist
               </Link>
             </div>
+
+            {/* Mobile menu button */}
+            <div className="flex items-center lg:hidden">
+              <button
+                onClick={() => setMobileMenuOpen(true)}
+                className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-white/10 focus:outline-none"
+                aria-expanded="false"
+              >
+                <span className="sr-only">Open main menu</span>
+                <MenuIcon className="block h-6 w-6" aria-hidden="true" />
+              </button>
+            </div>
+          </div>
+        </nav>
+      </header>
+
+      {/* Mobile menu panel */}
+      <div
+        className={`fixed inset-0 z-50 bg-black transform transition-transform duration-300 ease-in-out ${
+          mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
+      >
+        <div className="flex flex-col h-full">
+          <div className="flex items-center justify-between p-4 border-b border-white/10">
+            <Link href="/" className="flex items-center" onClick={handleClose}>
+              <Image
+                src="/datatreilogo2.svg"
+                alt="Data Trei"
+                width={200}
+                height={50}
+                className="h-12 w-auto"
+                priority
+              />
+            </Link>
+            <button
+              onClick={handleClose}
+              className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+            >
+              <X className="h-6 w-6 text-white" />
+            </button>
+          </div>
+
+          {getMobileMenuContent()}
+
+          <div className="p-4 space-y-3 border-t border-white/10">
+            <Link
+              href="/signup"
+              className="flex items-center justify-center w-full px-6 py-3 text-base font-medium text-white bg-emerald-600 hover:bg-emerald-500 rounded-lg transition-colors"
+              onClick={handleClose}
+            >
+              Join Waitlist
+            </Link>
+            <Link
+              href="/contact"
+              className="flex items-center justify-center w-full px-6 py-3 text-base font-medium text-white bg-transparent border border-white/20 rounded-lg hover:bg-white/5 transition-colors"
+              onClick={handleClose}
+            >
+              Talk to Human
+            </Link>
           </div>
         </div>
-      )}
-    </nav>
+      </div>
+    </>
   );
 };
 

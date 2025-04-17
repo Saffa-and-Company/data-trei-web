@@ -5,6 +5,7 @@ interface FooterColumnProps {
   links: Array<{
     text: string;
     href: string;
+    disabled?: boolean;
   }>;
 }
 
@@ -14,12 +15,18 @@ const FooterColumn = ({ title, links }: FooterColumnProps) => (
     <ul className="space-y-2">
       {links.map((link, index) => (
         <li key={index}>
-          <Link
-            href={link.href}
-            className="text-gray-400 hover:text-emerald-400 transition-colors"
-          >
-            {link.text}
-          </Link>
+          {link.disabled ? (
+            <span className="text-gray-500 cursor-not-allowed">
+              {link.text}
+            </span>
+          ) : (
+            <Link
+              href={link.href}
+              className="text-gray-400 hover:text-emerald-400 transition-colors"
+            >
+              {link.text}
+            </Link>
+          )}
         </li>
       ))}
     </ul>
@@ -28,28 +35,22 @@ const FooterColumn = ({ title, links }: FooterColumnProps) => (
 
 const footerLinks = {
   products: [
-    { text: "Platform", href: "/platform" },
-    { text: "Integrations", href: "/integrations" },
-    { text: "API", href: "/api" },
-    { text: "Pricing", href: "/pricing" }
+    { text: "Exploit & Vulnerability Intelligence", href: "/products/vulnerability-intelligence" },
+    { text: "Initial Access Monitoring", href: "/products/access-monitoring" },
+    { text: "Enterprise Threat Graph", href: "/products/enterprise-threat-graph" },
+    { text: "Agentic Co-Pilot", href: "/products/agentic-co-pilot" }
   ],
   resources: [
-    { text: "Documentation", href: "/docs" },
-    { text: "Blog", href: "/blog" },
-    { text: "Whitepapers", href: "/resources" },
-    { text: "Case Studies", href: "/case-studies" }
-  ],
-  openSource: [
-    { text: "GitHub", href: "https://github.com/datatrei" },
-    { text: "Community", href: "/community" },
-    { text: "Contributing", href: "/contributing" },
-    { text: "Security", href: "/security" }
+    { text: "Documentation (Coming Soon)", href: "#", disabled: true },
+    { text: "Blog (Coming Soon)", href: "#", disabled: true },
+    { text: "Whitepapers (Coming Soon)", href: "#", disabled: true },
+    { text: "Case Studies (Coming Soon)", href: "#", disabled: true }
   ],
   company: [
-    { text: "About", href: "/about" },
-    { text: "Careers", href: "/careers" },
+    { text: "About", href: "/company" },
+    { text: "Careers", href: "/company" },
     { text: "Contact", href: "/contact" },
-    { text: "Partners", href: "/partners" }
+    { text: "Partners (Coming Soon)", href: "#", disabled: true }
   ]
 };
 
