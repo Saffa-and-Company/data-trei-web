@@ -14,8 +14,20 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: '/datatreilogo2.svg',
-        href: '/datatreilogo2.svg',
+        media: '(prefers-color-scheme: light)',
+        url: '/lightfavicon.png',
+        href: '/lightfavicon.png',
+      },
+      {
+        media: '(prefers-color-scheme: dark)',
+        url: '/DarkFavicon.svg',
+        href: '/DarkFavicon.svg',
+      }
+    ],
+    apple: [
+      {
+        url: '/lightfavicon.png',
+        href: '/lightfavicon.png',
       }
     ],
   },
